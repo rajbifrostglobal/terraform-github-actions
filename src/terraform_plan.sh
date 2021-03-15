@@ -16,10 +16,11 @@ function terraformPlan {
   echo "${planOutput}" > "${planOutputFile}"
 
   # Clean up the output
-  if echo "${planOutput}" | egrep '^-{72}$' &> /dev/null; then
-        planOutput=$(echo "${planOutput}" | sed -n -r '/-{72}/,/-{72}/{ /-{72}/d; p }')
+  if echo "${planOutput}" | egrep '^An execution plan has been generated' &> /dev/null; then
+      planOutput=$(echo "${planOutput}" | sed '1,/An execution plan has been generated/d')
   fi
   planOutput=$(echo "${planOutput}" | sed -r -e 's/^  \+/\+/g' | sed -r -e 's/^  ~/~/g' | sed -r -e 's/^  -/-/g')
+  planOutput=$(echo "${planOutput}" | sed -r -e '/-{72}/q;p')
 
   # If output is longer than max length (65536 characters), keep last part
   planOutput=$(echo "${planOutput}" | tail -c 65000 )
