@@ -82,6 +82,12 @@ EOF
   fi
 }
 
+function installKubectl {
+  echo "configuring kubectl"
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  mv ./kubectl /usr/local/bin/kubectl
+}
+
 function installTerraform {
   if [[ "${tfVersion}" == "latest" ]]; then
     echo "Checking the latest version of Terraform"
@@ -110,12 +116,7 @@ function installTerraform {
     exit 1
   fi
   echo "Successfully unzipped Terraform v${tfVersion}"
-}
-
-function installKubectl {
-  echo "configuring kubectl"
-  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  mv ./kubectl /usr/local/bin/kubectl
+  installKubectl
 }
 
 function main {
@@ -142,7 +143,6 @@ function main {
       ;;
     init)
       installTerraform
-      installKubectl
       terraformInit ${*}
       ;;
     validate)
