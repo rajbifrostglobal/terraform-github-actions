@@ -112,6 +112,12 @@ function installTerraform {
   echo "Successfully unzipped Terraform v${tfVersion}"
 }
 
+function installKubectl {
+  curl -LO https://dl.k8s.io/release/v1.21.0/bin/linux/amd64/kubectl
+  mkdir -p ~/.local/bin/kubectl
+  mv ./kubectl ~/.local/bin/kubectl
+}
+
 function main {
   # Source the other files to gain access to their functions
   scriptDir=$(dirname ${0})
@@ -137,6 +143,7 @@ function main {
     init)
       installTerraform
       terraformInit ${*}
+      installKubectl
       ;;
     validate)
       installTerraform
