@@ -89,6 +89,10 @@ function installKubectl {
   chmod +x /usr/local/bin/kubectl
 }
 
+function installAnsible {
+  apk add ansible
+}
+
 function installTerraform {
   if [[ "${tfVersion}" == "latest" ]]; then
     echo "Checking the latest version of Terraform"
@@ -118,6 +122,7 @@ function installTerraform {
   fi
   echo "Successfully unzipped Terraform v${tfVersion}"
   installKubectl
+  installAnsible
 }
 
 function main {
