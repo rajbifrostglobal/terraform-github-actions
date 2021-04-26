@@ -3,6 +3,7 @@
 function terraformApply {
   # Gather the output of `terraform apply`.
   echo "apply: info: applying Terraform configuration in ${tfWorkingDir}"
+  echo "terraform apply -auto-approve -input=false ${*} "
   applyOutput=$(terraform apply -auto-approve -input=false ${*} 2>&1)
   applyExitCode=${?}
   applyCommentStatus="Failed"
