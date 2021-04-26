@@ -142,8 +142,8 @@ function main {
       ;;
     init)
       installTerraform
-      terraformInit ${*}
       installKubectl
+      terraformInit ${*}
       ;;
     validate)
       installTerraform
