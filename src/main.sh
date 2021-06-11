@@ -82,6 +82,16 @@ EOF
   fi
 }
 
+function installAwsCli {
+apk add --no-cache \
+        python3 \
+        py3-pip \
+    && pip3 install --upgrade pip \
+    && pip3 install \
+        awscli \
+    && rm -rf /var/cache/apk/*
+}
+
 function installKubectl {
   echo "configuring kubectl"
   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -123,6 +133,7 @@ function installTerraform {
   echo "Successfully unzipped Terraform v${tfVersion}"
   installKubectl
   installAnsible
+  installAwsCli
 }
 
 function main {
